@@ -56,7 +56,7 @@ export default new Vuex.Store({
     onestepleft: false,
     onestepright: false,
     statuslastpage: false,
-    activeIndex: 0
+    activePage: 1
   },
   getters: {
     getAirportDataInfo: state => state.info,
@@ -69,7 +69,7 @@ export default new Vuex.Store({
     getStatusOneStepRight: state => state.onestepright,
     getStatusOneStepLeft: state => state.onestepleft,
     getStatusLastPage: state => state.statuslastpage,
-    getActiveIndex: state => state.activeIndex
+    getActivePage: state => state.activePage
   },
   mutations: {
     AirportDataInfo: (state, payload) => {
@@ -102,8 +102,8 @@ export default new Vuex.Store({
     StatusLastPage: (state, payload) => {
       state.statuslastpage = payload
     },
-    ActiveIndex: (state, payload) => {
-      state.activeIndex = payload
+    ActivePage: (state, payload) => {
+      state.activePage = payload
     }
   },
   actions: {
@@ -134,8 +134,8 @@ export default new Vuex.Store({
     StatusLastPage: (context, payload) => {
       return context.commit('StatusLastPage', payload)
     },
-    ActiveIndex: (context, payload) => {
-      return context.commit('ActiveIndex', payload)
+    ActivePage: (context, payload) => {
+      return context.commit('ActivePage', payload)
     },
     AirportDataInfo: context => {
       // VUE_APP_API_URL=https://34.65.44.222/tam_processes
@@ -143,7 +143,6 @@ export default new Vuex.Store({
       context.commit('Preloader', true)
       new Query(uri).get
         .then(data => {
-          // console.log(data)
           context.commit('MaxPages', data['total'] = 10)
           context.commit('Fields', Object.getOwnPropertyNames(data['0']))
           context.commit('AirportDataInfo', data)

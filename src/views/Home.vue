@@ -19,9 +19,9 @@
       <div class="button" v-show="StatusTwoStepLeft" @click.stop="twoStepLeft"> &lt;&lt; </div>
       <div class="button" v-show="StatusOneStepLeft" @click.stop="oneStepLeft"> &lt; </div>
 
-      <div class="button" :class="[{active:IsActiveIndex===index}]"  v-for="(p,index) in PagesBuilder" :key="index" :data-page="`${p}`"  @click.stop="selectPage($event,index)">{{p}}</div>
+      <div class="button" :class="[{active:IsActivePage===p}]" v-for="p in PagesBuilder" :key="p" :data-page="`${p}`" @click.stop="selectPage($event,p)">{{p}}</div>
       <div class="button" v-show="StatusLastPage"> ... </div>
-      <div class="button" v-show="StatusLastPage" @click.stop="selectPage" :data-page="`${LastPage}`" > {{LastPage}}</div>
+      <div class="button" v-show="StatusLastPage" @click.stop="selectPage($event,LastPage)" :data-page="`${LastPage}`" > {{LastPage}}</div>
 
       <div class="button" v-show="StatusOneStepRight" @click.stop="oneStepRight"> &gt; </div>
       <div class="button" v-show="StatusTwoStepRight" @click.stop="twoStepRight"> &gt;&gt; </div>
@@ -45,33 +45,38 @@ export default {
         this.$router.replace('login')
       })
     },
-    selectPage: function (e, index) {
+    selectPage: function (e, p) {
+      console.log(p)
       let page = e.target.dataset.page * 1
-      this.$store.dispatch('ActiveIndex', index)
+      this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     },
     twoStepRight: function (e) {
       let page = this.$store.getters.getSelectPage
       page += 2
+      this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     },
     twoStepLeft: function (e) {
       let page = this.$store.getters.getSelectPage
       page -= 2
+      this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     },
     oneStepRight: function (e) {
       let page = this.$store.getters.getSelectPage
       page += 1
+      this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     },
     oneStepLeft: function (e) {
       let page = this.$store.getters.getSelectPage
       page -= 1
+      this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     }
@@ -83,6 +88,9 @@ export default {
     FieldsList () {
       return this.$store.getters.getFields
     },
+    Preloader () {
+      return this.$store.getters.getStatusPreloader
+    },
     PagesBuilder () {
       const pages = []
       let total = this.$store.getters.getMaxPages
@@ -93,9 +101,6 @@ export default {
         }
       }
       return pages
-    },
-    Preloader () {
-      return this.$store.getters.getStatusPreloader
     },
     StatusTwoStepRight () {
       let page = this.$store.getters.getSelectPage
@@ -133,8 +138,8 @@ export default {
     LastPage () {
       return this.$store.getters.getMaxPages
     },
-    IsActiveIndex () {
-      return this.$store.getters.getActiveIndex
+    IsActivePage () {
+      return this.$store.getters.getActivePage
     }
   },
   beforeCreate () {
