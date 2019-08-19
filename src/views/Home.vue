@@ -16,15 +16,23 @@
     </table>
 
     <div class="buttons">
-      <div class="button" v-show="StatusTwoStepLeft" @click.stop="twoStepLeft"> &lt;&lt; </div>
-      <div class="button" v-show="StatusOneStepLeft" @click.stop="oneStepLeft"> &lt; </div>
+      <div class="button" v-show="StatusTwoStepLeft" @click.stop="twoStepLeft"> &lt;&lt;</div>
+      <div class="button" v-show="StatusOneStepLeft" @click.stop="oneStepLeft"> &lt;</div>
 
-      <div class="button" :class="[{active:IsActivePage===p}]" v-for="p in PagesBuilder" :key="p" :data-page="`${p}`" @click.stop="selectPage($event,p)">{{p}}</div>
-      <div class="button" v-show="StatusLastPage"> ... </div>
-      <div class="button" v-show="StatusLastPage" @click.stop="selectPage($event,LastPage)" :data-page="`${LastPage}`" > {{LastPage}}</div>
+      <div class="button" v-show="StatusOneStepLeft" @click.stop="selectPage($event,1)" :data-page="`${1}`"> {{1}}</div>
+      <div class="button" v-show="StatusOneStepLeft"> ...</div>
 
-      <div class="button" v-show="StatusOneStepRight" @click.stop="oneStepRight"> &gt; </div>
-      <div class="button" v-show="StatusTwoStepRight" @click.stop="twoStepRight"> &gt;&gt; </div>
+      <div class="button" :class="[{active:IsActivePage===p}]" v-for="p in PagesBuilder" :key="p" :data-page="`${p}`"
+           @click.stop="selectPage($event,p)">{{p}}
+      </div>
+
+      <div class="button" v-show="StatusLastPage"> ...</div>
+      <div class="button" v-show="StatusLastPage" @click.stop="selectPage($event,LastPage)" :data-page="`${LastPage}`">
+        {{LastPage}}
+      </div>
+
+      <div class="button" v-show="StatusOneStepRight" @click.stop="oneStepRight"> &gt;</div>
+      <div class="button" v-show="StatusTwoStepRight" @click.stop="twoStepRight"> &gt;&gt;</div>
     </div>
 
   </div>
@@ -46,7 +54,6 @@ export default {
       })
     },
     selectPage: function (e, p) {
-      console.log(p)
       let page = e.target.dataset.page * 1
       this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
@@ -95,8 +102,15 @@ export default {
       const pages = []
       let total = this.$store.getters.getMaxPages
       let page = this.$store.getters.getSelectPage
-      for (let p = page, i = 0; p <= total; p++, i++) {
-        if (i < 4) {
+      let laststep = (~~(page + 3) > total) ? total : ~~(page + 3)
+      let firststep = (~~(page - 3) < 1) ? 1 : ~~(page - 3)
+
+      let elements = ~~(page + 2)
+      console.log('~~(page - 3)', ~~(page - 3), '~~(page + 3)', ~~(page + 3))
+      console.log('f:', firststep, 'p:', page, 'l:', laststep, 'e:', elements)
+
+      for (let p = firststep, i = 0; p <= total; p++, i++) {
+        if (i < elements) {
           pages.push(p)
         }
       }
@@ -149,7 +163,7 @@ export default {
 </script>
 
 <style scoped>
-  *{
+  * {
     box-sizing: border-box;
   }
 
@@ -193,7 +207,7 @@ export default {
     border: 1px solid black;
   }
 
-  .active{
+  .active {
     background-color: red;
   }
 
