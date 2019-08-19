@@ -143,6 +143,9 @@ export default new Vuex.Store({
       context.commit('Preloader', true)
       new Query(uri).get
         .then(data => {
+          return data
+        })
+        .then(data => {
           context.commit('MaxPages', data['total'] = 10)
           context.commit('Fields', Object.getOwnPropertyNames(data['0']))
           context.commit('AirportDataInfo', data)
