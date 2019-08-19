@@ -139,13 +139,19 @@ export default new Vuex.Store({
     },
     AirportDataInfo: context => {
       // VUE_APP_API_URL=https://34.65.44.222/tam_processes
+      // #VUE_APP_API_URL=http://5d596a7a6bf39a0014c6d71b.mockapi.io/api/v1/info
       let uri = `${process.env.VUE_APP_API_URL}?page=${context.getters.getSelectPage}&limit=${10}`
       context.commit('Preloader', true)
       new Query(uri).get
         .then(data => {
-          context.commit('MaxPages', data['total'] = 10)
-          context.commit('Fields', Object.getOwnPropertyNames(data['0']))
-          context.commit('AirportDataInfo', data)
+          console.log(data)
+          return data
+        })
+        .then(data => {
+          console.log(data)
+          context.commit('MaxPages', data['total'])
+          context.commit('Fields', Object.getOwnPropertyNames(data['items'][0]))
+          context.commit('AirportDataInfo', data['items'])
         }).then(() => {
           context.commit('Preloader', false)
         })
