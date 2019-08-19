@@ -103,8 +103,8 @@ export default {
       let total = this.$store.getters.getMaxPages
       let page = this.$store.getters.getSelectPage
       let firststep = page - 2 < 1 ? 1 : page - 2
-
       let elements = 5
+      firststep = page === 3 ? 2 : firststep
 
       for (let p = firststep, i = 0; p <= total; p++, i++) {
         if (i < elements) {
