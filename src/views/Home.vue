@@ -19,8 +19,8 @@
       <div class="button" v-show="StatusTwoStepLeft" @click.stop="twoStepLeft"> &lt;&lt;</div>
       <div class="button" v-show="StatusOneStepLeft" @click.stop="oneStepLeft"> &lt;</div>
 
-      <div class="button" v-show="StatusOneStepLeft" @click.stop="selectPage($event,1)" :data-page="`${1}`"> {{1}}</div>
-      <div class="button" v-show="StatusOneStepLeft"> ...</div>
+      <div class="button" v-show="StatusTwoStepLeft" @click.stop="selectPage($event,1)" :data-page="`${1}`"> {{1}}</div>
+      <div class="button" v-show="StatusTwoStepLeft"> ...</div>
 
       <div class="button" :class="[{active:IsActivePage===p}]" v-for="p in PagesBuilder" :key="p" :data-page="`${p}`"
            @click.stop="selectPage($event,p)">{{p}}
@@ -59,28 +59,28 @@ export default {
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     },
-    twoStepRight: function (e) {
+    twoStepRight: function () {
       let page = this.$store.getters.getSelectPage
       page += 2
       this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     },
-    twoStepLeft: function (e) {
+    twoStepLeft: function () {
       let page = this.$store.getters.getSelectPage
       page -= 2
       this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     },
-    oneStepRight: function (e) {
+    oneStepRight: function () {
       let page = this.$store.getters.getSelectPage
       page += 1
       this.$store.dispatch('ActivePage', page)
       this.$store.dispatch('SelectPage', page)
       return this.$store.dispatch('AirportDataInfo')
     },
-    oneStepLeft: function (e) {
+    oneStepLeft: function () {
       let page = this.$store.getters.getSelectPage
       page -= 1
       this.$store.dispatch('ActivePage', page)
@@ -102,12 +102,9 @@ export default {
       const pages = []
       let total = this.$store.getters.getMaxPages
       let page = this.$store.getters.getSelectPage
-      let laststep = (~~(page + 3) > total) ? total : ~~(page + 3)
-      let firststep = (~~(page - 3) < 1) ? 1 : ~~(page - 3)
+      let firststep = page - 2 < 1 ? 1 : page - 2
 
-      let elements = ~~(page + 2)
-      console.log('~~(page - 3)', ~~(page - 3), '~~(page + 3)', ~~(page + 3))
-      console.log('f:', firststep, 'p:', page, 'l:', laststep, 'e:', elements)
+      let elements = 5
 
       for (let p = firststep, i = 0; p <= total; p++, i++) {
         if (i < elements) {
@@ -145,7 +142,7 @@ export default {
     StatusLastPage () {
       let page = this.$store.getters.getSelectPage
       let max = this.$store.getters.getMaxPages
-      let status = !(max - page <= 3)
+      let status = !(max - page <= 2)
       this.$store.dispatch('StatusLastPage', status)
       return this.$store.getters.getStatusLastPage
     },
