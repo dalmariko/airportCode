@@ -55,21 +55,19 @@ export default new Vuex.Store({
     twostepright: false,
     onestepleft: false,
     onestepright: false,
-    statuslastpage: false,
     activePage: 1
   },
   getters: {
-    getAirportDataInfo: state => state.info,
-    getSelectPage: state => state.selectPage,
-    getMaxPages: state => state.maxpages,
-    getFields: state => state.fields,
-    getStatusPreloader: state => state.preloader,
-    getStatusTwoStepRight: state => state.twostepright,
-    getStatusTwoStepLeft: state => state.twostepleft,
-    getStatusOneStepRight: state => state.onestepright,
-    getStatusOneStepLeft: state => state.onestepleft,
-    getStatusLastPage: state => state.statuslastpage,
-    getActivePage: state => state.activePage
+    AirportData: state => state.info,
+    Fields: state => state.fields,
+    StatusPreloader: state => state.preloader,
+    MaxPages: state => state.maxpages,
+    SelectPage: state => state.selectPage,
+    ActivePage: state => state.activePage,
+    StatusTwoStepRight: state => state.twostepright,
+    StatusTwoStepLeft: state => state.twostepleft,
+    StatusOneStepRight: state => state.onestepright,
+    StatusOneStepLeft: state => state.onestepleft
   },
   mutations: {
     AirportDataInfo: (state, payload) => {
@@ -98,9 +96,6 @@ export default new Vuex.Store({
     },
     StatusOneStepLeft: (state, payload) => {
       state.onestepleft = payload
-    },
-    StatusLastPage: (state, payload) => {
-      state.statuslastpage = payload
     },
     ActivePage: (state, payload) => {
       state.activePage = payload
@@ -131,15 +126,12 @@ export default new Vuex.Store({
     StatusOneStepLeft: (context, payload) => {
       return context.commit('StatusOneStepLeft', payload)
     },
-    StatusLastPage: (context, payload) => {
-      return context.commit('StatusLastPage', payload)
-    },
     ActivePage: (context, payload) => {
       return context.commit('ActivePage', payload)
     },
     AirportDataInfo: context => {
       // VUE_APP_API_URL=https://34.65.44.222/tam_processes
-      let uri = `${process.env.VUE_APP_API_URL}?page=${context.getters.getSelectPage}&limit=${10}`
+      let uri = `${process.env.VUE_APP_API_URL}?page=${context.getters.SelectPage}&limit=${10}`
       context.commit('Preloader', true)
       new Query(uri).get
         .then(data => {
