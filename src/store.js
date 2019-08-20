@@ -60,7 +60,7 @@ export default new Vuex.Store({
   getters: {
     AirportData: state => state.info,
     Fields: state => state.fields,
-    StatusPreloader: state => state.preloader,
+    Preloader: state => state.preloader,
     MaxPages: state => state.maxpages,
     SelectPage: state => state.selectPage,
     ActivePage: state => state.activePage,
