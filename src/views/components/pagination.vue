@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'pagination',
   methods: {
@@ -70,14 +70,22 @@ export default {
       'StatusOneStepRight',
       'StatusOneStepLeft'
     ]),
+    ...mapActions([
+      'AirportDataInfo',
+      'ActivePage',
+      'SelectPage',
+      'StatusTwoStepRight',
+      'StatusTwoStepLeft',
+      'StatusOneStepRight',
+      'StatusOneStepLeft'
+    ]),
     PagesBuilder () {
       const pages = []
-      let max = this.MaxPages
+      const max = this.MaxPages
       let page = this.SelectPage
       let firststep = page - 2 < 1 ? 1 : page - 2
-      let elements = 5
+      const elements = 5
       firststep = page === 3 ? 2 : firststep
-
       for (let p = firststep, i = 0; p <= max; p++, i++) {
         if (i < elements) {
           pages.push(p)

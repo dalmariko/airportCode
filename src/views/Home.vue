@@ -30,6 +30,11 @@ import Preloader from './components/preloader'
 export default {
   name: 'FlightInformation',
   components: { Preloader, Pagination },
+  data () {
+    return {
+
+    }
+  },
   methods: {
     logout: function () {
       firebase.auth().signOut().then(() => {
