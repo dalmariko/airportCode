@@ -25,39 +25,49 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'pagination',
   methods: {
+    ...mapActions({
+      info: 'AirportDataInfo',
+      ap: 'ActivePage',
+      sp: 'SelectPage',
+      tsr: 'StatusTwoStepRight',
+      tsl: 'StatusTwoStepLeft',
+      osr: 'StatusOneStepRight',
+      osl: 'StatusOneStepLeft'
+
+    }),
     selectPage: function (e, p) {
       let page = e.target.dataset.page * 1
-      this.$store.dispatch('ActivePage', page)
-      this.$store.dispatch('SelectPage', page)
-      return this.$store.dispatch('AirportDataInfo')
+      this.ap(page)
+      this.sp(page)
+      return this.info(page)
     },
     twoStepRight: function () {
       let page = this.SelectPage
       page += 2
-      this.$store.dispatch('ActivePage', page)
-      this.$store.dispatch('SelectPage', page)
-      return this.$store.dispatch('AirportDataInfo')
+      this.ap(page)
+      this.sp(page)
+      return this.info(page)
     },
     twoStepLeft: function () {
       let page = this.SelectPage
       page -= 2
-      this.$store.dispatch('ActivePage', page)
-      this.$store.dispatch('SelectPage', page)
-      return this.$store.dispatch('AirportDataInfo')
+      this.ap(page)
+      this.sp(page)
+      return this.info(page)
     },
     oneStepRight: function () {
       let page = this.SelectPage
       page += 1
-      this.$store.dispatch('ActivePage', page)
-      this.$store.dispatch('SelectPage', page)
-      return this.$store.dispatch('AirportDataInfo')
+      this.ap(page)
+      this.sp(page)
+      return this.info(page)
     },
     oneStepLeft: function () {
       let page = this.SelectPage
       page -= 1
-      this.$store.dispatch('ActivePage', page)
-      this.$store.dispatch('SelectPage', page)
-      return this.$store.dispatch('AirportDataInfo')
+      this.ap(page)
+      this.sp(page)
+      return this.info(page)
     }
   },
   computed: {
@@ -65,15 +75,6 @@ export default {
       'MaxPages',
       'SelectPage',
       'ActivePage',
-      'StatusTwoStepRight',
-      'StatusTwoStepLeft',
-      'StatusOneStepRight',
-      'StatusOneStepLeft'
-    ]),
-    ...mapActions([
-      'AirportDataInfo',
-      'ActivePage',
-      'SelectPage',
       'StatusTwoStepRight',
       'StatusTwoStepLeft',
       'StatusOneStepRight',
@@ -95,22 +96,22 @@ export default {
     },
     TwoStepRight () {
       let status = !(this.MaxPages - this.SelectPage <= 2)
-      this.$store.dispatch('StatusTwoStepRight', status)
+      this.tsr(status)
       return this.StatusTwoStepRight
     },
     TwoStepLeft () {
       let status = !(this.SelectPage <= 2)
-      this.$store.dispatch('StatusTwoStepLeft', status)
+      this.tsl(status)
       return this.StatusTwoStepLeft
     },
     OneStepRight () {
       let status = !(this.MaxPages - this.SelectPage <= 1)
-      this.$store.dispatch('StatusOneStepRight', status)
+      this.osr(status)
       return this.StatusOneStepRight
     },
     OneStepLeft () {
       let status = !(this.SelectPage <= 1)
-      this.$store.dispatch('StatusOneStepLeft', status)
+      this.osl(status)
       return this.StatusOneStepLeft
     },
     LastPage () {
