@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Kiev"
+  },
+  {
+    "id": 2,
+    "name": "Kharkov"
+  },
+  {
+    "id": 3,
+    "name": "Lviv"
+  },
+  {
+    "id": 4,
+    "name": "Chernigov"
+  },
+  {
+    "id": 5,
+    "name": "Odessa"
+  }
+]
