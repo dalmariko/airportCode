@@ -130,14 +130,14 @@ export default new Vuex.Store({
       return context.commit('ActivePage', payload)
     },
     AirportDataInfo: (context, payload) => {
-      let uri = `${process.env.VUE_APP_API_URL}?page=${context.getters.SelectPage}&limit=${10}`
+      let uri = `${process.env.VUE_APP_API_URL}?page=${context.getters.SelectPage}&limit=${1}`
       context.commit('Preloader', true)
       new Query(uri).get
         .then(data => {
           return data
         })
         .then(data => {
-          context.commit('MaxPages', data['total'] = 10)
+          context.commit('MaxPages', data['total'] = 100)
           context.commit('Fields', Object.getOwnPropertyNames(data['0']))
           context.commit('AirportDataInfo', data)
         })

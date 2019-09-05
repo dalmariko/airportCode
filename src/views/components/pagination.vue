@@ -84,13 +84,13 @@ export default {
       const pages = []
       const max = this.MaxPages
       let page = this.SelectPage
-      let firststep = page - 2 < 1 ? 1 : page - 2
       const elements = 5
+      let firststep = page - 2 < 1 ? 1 : page - 2
       firststep = page === 3 ? 2 : firststep
-      for (let p = firststep, i = 0; p <= max; p++, i++) {
-        if (i < elements) {
-          pages.push(p)
-        }
+      let laststep = firststep + elements
+      laststep = laststep >= max ? max : laststep
+      for (let p = firststep; p <= laststep; p++) {
+        pages.push(p)
       }
       return pages
     },
