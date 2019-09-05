@@ -33,7 +33,7 @@ import Pagination from './components/pagination'
 import Preloader from './components/preloader'
 // import Autocomplete from 'v-autocomplete'
 import 'v-autocomplete/dist/v-autocomplete.css'
-import ItemTemplate from './components/ItemTemplate'
+// import ItemTemplate from './components/ItemTemplate'
 
 // class Query {
 //   constructor (url, settings) {
@@ -86,9 +86,9 @@ export default {
   },
   data () {
     return {
-      item: { },
-      items: [],
-      template: ItemTemplate
+      // item: { },
+      // items: [],
+      // template: ItemTemplate
     }
   },
   methods: {
@@ -99,7 +99,7 @@ export default {
         .then(() => {
           this.$router.replace('login')
         })
-    },
+    }
     // getCities (text) {
     //   // new Query('http://5d679dc26847d40014f662a0.mockapi.io/api/v1/cities').get
     //   new Query('http://5d67b9c16847d40014f66476.mockapi.io/api/v1/countries').get
@@ -113,9 +113,9 @@ export default {
     //       console.log(this.items)
     //     })
     // },
-    getLabel (item) {
-      return item.name
-    }
+    // getLabel (item) {
+    //   return item.name
+    // }
   },
   computed: {
     ...mapGetters(['AirportData', 'Fields'])
