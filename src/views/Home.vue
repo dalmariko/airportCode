@@ -15,7 +15,7 @@
       </tr>
     </table>
 
-    <pagination />
+    <pagination :howManyPagestShowinBar="3"/>
 <!--    <autocomplete
       :items="items"
      :value="item"

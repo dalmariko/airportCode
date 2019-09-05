@@ -1,7 +1,7 @@
 <template>
   <div class="buttons">
-    <div class="button" v-show="TwoStepLeft" @click.stop="twoStepLeft"> &lt;&lt;</div>
-    <div class="button" v-show="OneStepLeft" @click.stop="oneStepLeft"> &lt;</div>
+    <div class="button" v-show="TwoStepLeft" @click.stop="twoStepLeft"> &lt;&lt; </div>
+    <div class="button" v-show="OneStepLeft" @click.stop="oneStepLeft"> &lt; </div>
 
     <div class="button" v-show="TwoStepLeft" @click.stop="selectPage($event,1)" :data-page="`${1}`"> {{1}}</div>
     <div class="button" v-show="TwoStepLeft"> ...</div>
@@ -15,8 +15,8 @@
       {{LastPage}}
     </div>
 
-    <div class="button" v-show="OneStepRight" @click.stop="oneStepRight"> &gt;</div>
-    <div class="button" v-show="TwoStepRight" @click.stop="twoStepRight"> &gt;&gt;</div>
+    <div class="button" v-show="OneStepRight" @click.stop="oneStepRight"> &gt; </div>
+    <div class="button" v-show="TwoStepRight" @click.stop="twoStepRight"> &gt;&gt; </div>
   </div>
 </template>
 
@@ -24,6 +24,12 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'pagination',
+  props: {
+    howManyPagestShowinBar: {
+      type: Number,
+      default: 3
+    }
+  },
   methods: {
     ...mapActions({
       info: 'AirportDataInfo',
@@ -32,8 +38,8 @@ export default {
       tsr: 'StatusTwoStepRight',
       tsl: 'StatusTwoStepLeft',
       osr: 'StatusOneStepRight',
-      osl: 'StatusOneStepLeft'
-
+      osl: 'StatusOneStepLeft',
+      hmpsib: 'HowManyPagestShowinBar'
     }),
     selectPage: function (e, p) {
       let page = e.target.dataset.page * 1
@@ -78,23 +84,29 @@ export default {
       'StatusTwoStepRight',
       'StatusTwoStepLeft',
       'StatusOneStepRight',
-      'StatusOneStepLeft'
+      'StatusOneStepLeft',
+      'HowManyPagestShowinBar'
     ]),
     PagesBuilder () {
       const pages = []
       const max = this.MaxPages
       let page = this.SelectPage
-      const elements = 4
-      let leftside = page - 2
-      let firststep = leftside < 1 ? 1 : leftside
+
+      const showpages = this.HowManyPagestShowinBar
+      const elements = (showpages % 2 === 0) ? showpages : showpages + 1
+      const halfelementsleftside = ~~(elements / 2)
+
+      let leftside = page - halfelementsleftside
+
+      let firststep = leftside <= 1 ? 1 : leftside
       firststep = page === 3 ? 2 : firststep
+
       let laststep = firststep + elements
       laststep = laststep >= max ? max : laststep
+
       for (let p = firststep; p <= laststep; ++p) {
         pages.push(p)
-        console.log(p)
       }
-      console.log('\r\n')
       return pages
     },
     TwoStepRight () {
@@ -123,6 +135,9 @@ export default {
     IsActivePage () {
       return this.ActivePage
     }
+  },
+  beforeMount () {
+    this.hmpsib(this.howManyPagestShowinBar)
   }
 }
 </script>

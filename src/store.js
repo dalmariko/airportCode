@@ -55,7 +55,8 @@ export default new Vuex.Store({
     twostepright: false,
     onestepleft: false,
     onestepright: false,
-    activePage: 1
+    activePage: 1,
+    howManyPagestShowinBar: 5
   },
   getters: {
     AirportData: state => state.info,
@@ -67,7 +68,8 @@ export default new Vuex.Store({
     StatusTwoStepRight: state => state.twostepright,
     StatusTwoStepLeft: state => state.twostepleft,
     StatusOneStepRight: state => state.onestepright,
-    StatusOneStepLeft: state => state.onestepleft
+    StatusOneStepLeft: state => state.onestepleft,
+    HowManyPagestShowinBar: state => state.howManyPagestShowinBar
   },
   mutations: {
     AirportDataInfo: (state, payload) => {
@@ -99,6 +101,9 @@ export default new Vuex.Store({
     },
     ActivePage: (state, payload) => {
       state.activePage = payload
+    },
+    HowManyPagestShowinBar: (state, payload) => {
+      state.howManyPagestShowinBar = payload
     }
   },
   actions: {
@@ -128,6 +133,9 @@ export default new Vuex.Store({
     },
     ActivePage: (context, payload) => {
       return context.commit('ActivePage', payload)
+    },
+    HowManyPagestShowinBar: (context, payload) => {
+      return context.commit('HowManyPagestShowinBar', payload)
     },
     AirportDataInfo: (context, payload) => {
       let uri = `${process.env.VUE_APP_API_URL}?page=${context.getters.SelectPage}&limit=${1}`
