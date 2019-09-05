@@ -84,14 +84,17 @@ export default {
       const pages = []
       const max = this.MaxPages
       let page = this.SelectPage
-      const elements = 5
-      let firststep = page - 2 < 1 ? 1 : page - 2
+      const elements = 4
+      let leftside = page - 2
+      let firststep = leftside < 1 ? 1 : leftside
       firststep = page === 3 ? 2 : firststep
       let laststep = firststep + elements
       laststep = laststep >= max ? max : laststep
-      for (let p = firststep; p <= laststep; p++) {
+      for (let p = firststep; p <= laststep; ++p) {
         pages.push(p)
+        console.log(p)
       }
+      console.log('\r\n')
       return pages
     },
     TwoStepRight () {
